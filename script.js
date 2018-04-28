@@ -38,8 +38,8 @@ $(document).ready(function () {
             Minutes: mTime,
             Frequency: freq
         });
-    });
-    
+  
+
     database.ref().on("child_added", function (snapshot) {
         tName = snapshot.val().tName;
         dest = snapshot.val().dest;
@@ -47,15 +47,18 @@ $(document).ready(function () {
         mTime = snapshot.val().mTime;
         freq = snapshot.val().freq;
 
-        // var tr = $("<tr>");
-        // tr.append("<td>" + tName);
-        // tr.append("<td>" + mTime);
-        // tr.append("<td>" + hTime);
-        // tr.append("<td>"+ freq);
-        // $("#tb").append(tr);
-        // console.log(tr);
+        var tr = $("<tr>");
+        tr.append("<td>" + tName);
+        tr.append("<td>" + dest);
+        tr.append("<td>" + hTime);
+        tr.append("<td>" + mTime);
+        tr.append("<td>"+ freq);
+        $("#tb").append(tr);
+        console.log(tr);
 
-    })
+    });
+  });
+
 });
 
 
