@@ -1,0 +1,24 @@
+body {
+    background-image: url(../images/background_image2.jpg);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+}
+
+.jumbotron {
+    margin: 16px 200px;
+    padding: 16px 32px;
+}
+ 
+#map {
+    height: 500px;
+    width: 100%;
+}
+ 
+.results {
+   
+    color: rgb(92, 6, 25);
+    font-size: 1em;
+    font-weight: 900;
+}
+
+ 

@@ -11,28 +11,34 @@
             height: 400px;
             width: 100%;
         }
-        input{
+
+        input {
             margin-top: 10px;
         }
-d
-        h1{
+
+        h1 {
             text-align: center;
             font-size: 50px;
             text-shadow: 1px 1.21px black;
         }
-        #one{
+
+        #one {
             color: blue;
         }
-        #two{
+
+        #two {
             color: red;
         }
-        #three{
+
+        #three {
             color: yellow;
         }
-        #four{
+
+        #four {
             color: green;
         }
-        #bMap{
+
+        #bMap {
             background-color: lightseagreen;
         }
     </style>
@@ -40,24 +46,32 @@ d
 
 <body>
 
-    <h1> <span id="one"> Google</span><span id="two" > Map</span><span id="three"> Search<span id="four"> Marker</span> </h1>
+    <h1>
+        <span id="one"> Google</span>
+        <span id="two"> Map</span>
+        <span id="three"> Search
+            <span id="four"> Marker</span>
+    </h1>
 
     <div id="map">
     </div>
-    <div  id="bMap">
-    <form>
-        <hr>
-        <br><br>
-        Full Address:
-        <br>
-        <input type="text" id="uInp" size="50" placeholder="(ex. 123 main street, Village City, MN , 12345)">
-        <br>
-        <button type="submit" id="sub">ENTER</button>
-    </form>
-</div>
+    <div id="bMap">
+        <form>
+            <hr>
+            <br>
+            <br> Full Address:
+            <br>
+            <input type="text" id="uInp" size="50" placeholder="(ex. 123 main street, Village City, MN , 12345)">
+            <br>
+            <button type="submit" id="sub">ENTER</button>
+        </form>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
+        var type = ["parking", "reastaurent"];
+
+
         $("#map").hide();
         $("#sub").on("click", function (event) {
             event.preventDefault();
@@ -77,19 +91,16 @@ d
                 var lats = response.results[0].geometry.location.lat;
                 var longs = response.results[0].geometry.location.lng;
                 initMap(lats, longs, response);
-
+                
             });
         });
-         
+
         function initMap(x, y, obj) {
+            for (var i = 0; i < type.length; i++) {
+				serviceReq(type[i]);
+			};
+            var address = obj.results[0].formatted_address;
 
-             
-            console.log(obj);
-
-            var address =  obj.results[0].formatted_address;
-            
-
-            console.log(address);
             var uluru = {
                 lat: parseFloat(x),
                 lng: parseFloat(y)
@@ -99,22 +110,34 @@ d
                 zoom: 16,
                 center: uluru
             });
+            // function serviceReq(itype) {
+
+            //     var service = new google.maps.places.PlacesService(map);
+
+            //     var request = {
+            //         location: pyrmont,
+            //         radius: iradius,
+            //         type: [itype]
+            //     }
+
+            //     service.nearbySearch(request, fecthrespFacory(itype));
+
+            // }
 
 
             //add marker
             var marker = new google.maps.Marker({
                 position: uluru,
                 map: map,
-                icon:'http://maps.google.com/mapfiles/ms/micons/bar.png'
+                icon: 'http://maps.google.com/mapfiles/ms/micons/bar.png'
             });
             var infoWindow = new google.maps.InfoWindow({
-                content:'<a href="https://www.cowboys.com">Cowboys</a>'+'<br>'+ address
-               
-            
-            });
-            console.log(marker.title);
+                content: '<a href="https://www.cowboys.com">Cowboys</a>' + '<br>' + address
 
-            marker.addListener('click', function(){
+
+            });
+
+            marker.addListener('click', function () {
                 infoWindow.open(map, marker);
             });
 

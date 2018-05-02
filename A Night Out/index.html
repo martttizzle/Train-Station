@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A Night Out</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+
+</head>
+<body>
+    <header>
+        <div class="jumbotron">
+            <h1 class="display-4">A Night Out</h1>
+            <hr class="my-4">
+            <p>Let Us Help Plan A Night Out</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-5 offset-md-3" id="weatherAPIID">
+                Current Temperature:
+                <span id="weatherAPITemp"></span>
+                Current Condition:
+                <span id="weatherAPICondition"></span>
+                <span id="weatherAPIIcon"></span>
+            </div>
+            <div class="col-md-2 offset-md-2" id="currentTimeDate">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="map">
+                    MAP PLACEHOLDER
+                </div>
+            </div>
+        </div>
+        <div id="checked" class="row">
+            <div id="restaurant" class="col-md">
+                <h5>TOP 5 - RESTAURANTS</h5>
+            </div>
+            <div id="bars" class="col-md">
+                <h5>TOP 5 - BARS</h5>
+            </div>
+            <div id="gas" class="col-md">
+                <h5> TOP 5 - GAS STATIONS </h5>
+            </div>
+            <div id=parking class="col-md">
+                <h5>TOP 5 - PARKING </h5>
+            </div>
+            <div id="hotel" class="col-md">
+                <h5> TOP 5 - HOTELS </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 offset-md-11">
+                <button type="button" id="mapSub" class="btn btn-light">Submit</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!--modal call-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">A Night Out. Please Select Below To Begin Search:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="formCityZipInput">City</label>
+                                <input type="text" class="form-control" id="formCityZipInput" placeholder="Minneapolis">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="formDistanceInput">Radius</label>
+                                <select id="formDistanceInput" class="form-control">
+                                    <option>5mi</option>
+                                    <option selected>10 mi</option>
+                                    <option>15mi</option>
+                                    <option>20mi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="checkboxChoices">
+                            <div class="form-row">
+                                <div class="form-check col-md-3  offset-md-1">
+                                    <input class="form-check-input" type="checkbox" value="restaurants" id="formrestaurantCheckbox">
+                                    <label class="form-check-label" for="formrestaurantCheckbox">
+                                        Restaurants
+                                    </label>
+                                </div>
+
+                                <div class="form-check col-md-3  offset-md-1">
+                                    <input class="form-check-input" type="checkbox" value="bars" id="formBarCheckbox">
+                                    <label class="form-check-label" for="formBarCheckbox">
+                                        Bars
+                                    </label>
+                                </div>
+
+                                <div class="form-check col-md-3  offset-md-1 ">
+                                    <input class="form-check-input" type="checkbox" value="lodging" id="formBarCheckbox">
+                                    <label class="form-check-label" for="formBarCheckbox">
+                                        Hotels
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-check col-md-3 offset-md-3">
+                                    <input class="form-check-input" type="checkbox" value="gas_station" id="formGasCheckbox">
+                                    <label class="form-check-label" for="formGasCheckbox">
+                                        Gas Stations
+                                    </label>
+                                </div>
+                                <div class="form-check col-md-5  offset-md-1">
+                                    <input class="form-check-input" type="checkbox" value="parking" id="formParkingCheckbox">
+                                    <label class="form-check-label" for="formParkingCheckbox">
+                                        Parking
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="modalCloseButton" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="modalSummitButton">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<!-- <script src="assets/javascript/weatherapi.js"></script>  
+ <script src="assets/javascript/firebase.js"></script> -->
+<script src="assets/javaScript/scriptJK.js"></script>
+<script src="assets/javaScript/scriptSV.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAhNxc8BbsIMC5tFTNUSADF8vhSiNxXmA&libraries=places"></script>
